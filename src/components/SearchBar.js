@@ -32,7 +32,7 @@ const SearchBar = (props) => {
                 onChange={handleChange} 
                 value={term}
                 />
-                <BsSearch className="search-icon"/>
+                <BsSearch onClick={handleSubmit} className="search-icon"/>
             </form>
             <button onClick={handleClick} className="random"> 
                 <img src={pokeball} alt="pokeball-icon" /> <span>Random</span> 
