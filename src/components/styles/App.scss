@@ -1,12 +1,23 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 80%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    font-family: 'Roboto Mono', monospace;
+.wrapper {
+     min-height: 100vh;
+
+     .decoration {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        height: 10px;
+        background: #fffff2;
+    }
+
+     .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 80%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        font-family: 'Roboto Mono', monospace;
 
     .loading {
         text-align: center;
@@ -24,6 +35,8 @@
     
     }
 }
+}
+
 
 @keyframes rotation {
     from {transform: rotate(0deg);}

@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import SearchBar from './SearchBar'
 import pokemons from '../apis/pokemons'
 import PokeCard from './PokeCard'
-import pokeball from '../img/pokeball.png'
+import { TYPE_COLORS, TYPE_ICONS} from './type_colors.js'
 import './styles/App.scss'
+import pokeball from '../img/pokeball.png'
 
 
 const App = () => {
@@ -16,12 +17,12 @@ const App = () => {
             setLoading(true);
             const response = await pokemons.get(`/pokemon/${term}`)
 
-            const desRes = await pokemons.get(`/pokemon-species/${term}`)
-
             const pokeId = response.data.id
             let imageURL = `https://pokeres.bastionbot.org/images/pokemon/${pokeId}.png`
 
-            let secondType;
+            const desRes = await pokemons.get(`/pokemon-species/${term}`)
+
+            let secondType = '';
 
             if (response.data.types.length == 2) {
                 secondType = response.data.types.[1].type.name
@@ -62,32 +63,42 @@ const App = () => {
     }
 
     return (
-        <div className="container">
-            <SearchBar 
-            onFormSubmit={onTermSubmit}
-            randomPokemon={randomPokemon}
-            />
-            {loading ? (
-                <div className='loading'>
-                    <img className="pokeball"src={pokeball}></img>
-                    <h2>Loading...</h2>
-                </div>
-            ) : loading === null ?  (
-                <h2 className='loading'>Search for pokemons!</h2>
-            ) : 
-            <PokeCard
-                name={activePokemon.name}
-                image={activePokemon.image}
-                description={activePokemon.description}
-                type={activePokemon.type}
-                type2={activePokemon.type2}
-                experience={activePokemon.experience}
-                height={activePokemon.height}
-                weight={activePokemon.weight}
-                color={activePokemon.color}
-                captureRate={activePokemon.captureRate}
-                ability={activePokemon.ability}
-            />}
+        <div className="wrapper"
+            style={ activePokemon.type2 === '' ?
+                {backgroundColor: `#${TYPE_COLORS[activePokemon.type]}33`} : 
+                {backgroundImage: `linear-gradient(to right, #${TYPE_COLORS[activePokemon.type]}33, #${TYPE_COLORS[activePokemon.type2]}33)`}
+            }>
+            <div 
+            className="decoration"
+              style={{backgroundColor: `#${TYPE_COLORS[activePokemon.type]}`}}>
+            </div>
+            <div className="container">
+                <SearchBar 
+                onFormSubmit={onTermSubmit}
+                randomPokemon={randomPokemon}
+                />
+                {loading ? (
+                    <div className='loading'>
+                        <img className="pokeball"src={pokeball}></img>
+                        <h2>Loading...</h2>
+                    </div>
+                ) : loading === null ?  (
+                    <h2 className='loading'>Search for pokemons!</h2>
+                ) : 
+                <PokeCard
+                    name={activePokemon.name}
+                    image={activePokemon.image}
+                    description={activePokemon.description}
+                    type={activePokemon.type}
+                    type2={activePokemon.type2}
+                    experience={activePokemon.experience}
+                    height={activePokemon.height}
+                    weight={activePokemon.weight}
+                    color={activePokemon.color}
+                    captureRate={activePokemon.captureRate}
+                    ability={activePokemon.ability}
+                />}
+            </div>
         </div>
     );
 }

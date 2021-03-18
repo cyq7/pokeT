@@ -7,10 +7,7 @@ const PokeCard = ({name, image, experience, height, weight, type, type2, descrip
 
     return (
          <div className="pokeCard">
-            <img 
-            alt="pokemon's image" 
-            src={ image }
-            ></img>
+            <img alt="pokemon's image" src={ image }></img>
                 <div className='details'> 
                     <h1>{pokeName}</h1>
                     <p className="description">{description}</p>
