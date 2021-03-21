@@ -14,7 +14,6 @@ const SearchBar = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         props.onFormSubmit(term.toLowerCase())
     }
 
@@ -23,16 +22,16 @@ const SearchBar = (props) => {
         props.randomPokemon(randomNumber);
     }
 
-
     return (
         <div className='search-bar'>
-            <form onSubmit={handleSubmit} className=''>
+            <form onSubmit={handleSubmit}>
                 <input 
                 type="text" 
                 onChange={handleChange} 
                 value={term}
+                required
                 />
-                <BsSearch onClick={handleSubmit} className="search-icon"/>
+                <button className="search-button" type="submit"><BsSearch className="search-icon"/></button>
             </form>
             <button onClick={handleClick} className="random"> 
                 <img src={pokeball} alt="pokeball-icon" /> <span>Random</span> 

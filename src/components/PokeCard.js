@@ -1,14 +1,30 @@
+import { useState, useEffect } from 'react';
+import Aos from 'aos';
+import 'aos/dist/aos.css'
 import './styles/PokeCard.scss'
-import { TYPE_COLORS, TYPE_ICONS} from './type_colors.js'
+import { TYPE_COLORS } from './type_colors.js'
 
 const PokeCard = ({name, image, experience, height, weight, type, type2, description, color, captureRate, ability}) => {
+    const[loaded, setLoaded] = useState(false);
 
    const pokeName = name ? name.charAt(0).toUpperCase() + name.slice(1) : null;
 
+      useEffect(() => {
+        Aos.init({duration: 2500});
+    }, []);
+
     return (
-         <div className="pokeCard">
-            <img alt="pokemon's image" src={ image }></img>
-                <div className='details'> 
+         <div 
+            data-aos="fade-up" 
+            className="pokeCard">
+            <img 
+                style={loaded ? {} : {display:"none"}}
+                data-aos="zoom-in" 
+                alt="pokemon's image" 
+                src={ image }
+                onLoad={() => setLoaded(true)}>
+            </img>
+                <div style={loaded ? {} : {visibility:"hidden"}} className='details'> 
                     <h1>{pokeName}</h1>
                     <p className="description">{description}</p>
                     <div> 

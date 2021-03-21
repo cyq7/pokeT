@@ -1,20 +1,20 @@
-
 .pokeCard {
-    width: 80%;
+    width: 85%;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin: 25% auto;
+    margin: 25% auto 10%;
     position: relative;
     box-shadow: 2px 2px 10px #ccc;
     border-radius: 5px;
-    padding: 2%;
+    padding: 5%;
     text-align: center;
     background: #fff;
     display: flex;
+    position: relative;
     
     img {
-        height:60%;
+        height: 60%;
         width: 60%;
         margin-top: -35%;
     }
