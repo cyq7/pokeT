@@ -4,6 +4,8 @@ import SearchBar from './SearchBar';
 import pokemons from '../apis/pokemons';
 import PokeCard from './PokeCard';
 import Section from './Section';
+import Abilities from './Abilities';
+import Types from './Types'
 import { TYPE_COLORS} from './type_colors.js';
 import './styles/App.scss';
 import pokeball from '../img/pokeball.png';
@@ -88,31 +90,37 @@ const App = () => {
         onTermSubmit(response.data.name)
     }
 
-    const getAbilityResponse = async ()=> {
-        const response = await pokemons.get(`/ability/${activePokemon.ability}`)
-        const englishEntry = response.data.effect_entries.find(entry => {
-           return entry.language.name === 'en'
-        }).effect;
-        setAbility(englishEntry);
+    //abilities endpoint
+    const getAbilityResponse = async () => {
+        if (activePokemon !== "") {
+            const response = await pokemons.get(`/ability/${activePokemon.ability}`)
+            const englishEntry = response.data.effect_entries.find(entry => {
+            return entry.language.name === 'en'
+            });
+            setAbility(englishEntry.effect);
 
-        if (activePokemon.ability2 !== '') {
-            const response2 = await pokemons.get(`/ability/${activePokemon.ability2}`)
-            const englishEntry2 = response2.data.effect_entries.find(entry => {
-            return entry.language.name === 'en'
-        }).effect;
-        setAbility2(englishEntry2);
-        }
-        if (activePokemon.ability3 !== '') {
-            const response3 = await pokemons.get(`/ability/${activePokemon.ability3}`)
-            const englishEntry3 = response3.data.effect_entries.find(entry => {
-            return entry.language.name === 'en'
-        }).effect;
-        setAbility3(englishEntry3);
+            if (activePokemon.ability2 !== '') {
+                const response2 = await pokemons.get(`/ability/${activePokemon.ability2}`)
+                const englishEntry2 = response2.data.effect_entries.find(entry => {
+                return entry.language.name === 'en'
+            });
+            setAbility2(englishEntry2.effect);
+            }
+            if (activePokemon.ability3 !== '') {
+                const response3 = await pokemons.get(`/ability/${activePokemon.ability3}`)
+                const englishEntry3 = response3.data.effect_entries.find(entry => {
+                return entry.language.name === 'en'
+            });
+            setAbility3(englishEntry3.effect);
+            }            
         }
     }
+
+
 //is not invoked on init   
 useDidMountEffect(getAbilityResponse, [activePokemon]);
 
+console.log(activePokemon.name)
 
     return (
         <div className="wrapper"
@@ -157,20 +165,30 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                         captureRate={activePokemon.captureRate}
                         ability={activePokemon.ability}
                     />
+                    <Section
+                        title="Evolution"
+                        animation="fade-up-right"
+                    />
                     <Section 
-                        title="Types"
                         animation="fade-up-left"
-                        imgUr
+                        content= {
+                            <Types
+                            type={activePokemon.type}
+                            type2={activePokemon.type2}
+                        />}
                     />
                     <Section
                         title="Abilities"
                         animation="fade-up-right"
-                        ability={activePokemon.ability}
-                        ability2={activePokemon.ability2}
-                        ability3={activePokemon.ability3}
-                        description={ability}
-                        description2={ability2}
-                        description3={ability3}
+                        content = {
+                            <Abilities 
+                            ability={activePokemon.ability}
+                            ability2={activePokemon.ability2}
+                            ability3={activePokemon.ability3}
+                            description={ability}
+                            description2={ability2}
+                            description3={ability3} 
+                            />}
                     />
                      <Section
                         title="Movies"
