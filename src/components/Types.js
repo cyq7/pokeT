@@ -12,7 +12,9 @@ const Types = ({type, type2}) => {
     const firstImage = type ? require(`../img/${type}.png`).default : null;
     const secondImage = type2 ? require(`../img/${type2}.png`).default : null;
 
-    useEffect( async () => {
+
+    useEffect(() => {
+    const fetchData = async () => {
         const response = await pokemons.get(`/type/${type}`)
         const res = response.data.damage_relations
         const ddt = [];
@@ -29,8 +31,14 @@ const Types = ({type, type2}) => {
         const ndtRes =  res.no_damage_to
         ndtRes.forEach(type => {return type.name ? ndt.push(type.name) : null})
 
-        const goodAgainst = ddt.concat(ndf);
-        const weakAgainst = ddf.concat(ndt);
+        let goodAgainst = ddt.concat(ndf)
+        goodAgainst = goodAgainst.filter((item,index)=>{
+            return (goodAgainst.indexOf(item) === index)
+            });
+        let weakAgainst = ddf.concat(ndt)
+        weakAgainst = weakAgainst.filter((item,index)=>{
+            return (weakAgainst.indexOf(item) === index)
+            });
         setGoodAgainst(goodAgainst);
         setWeakAgainst(weakAgainst);
 
@@ -51,11 +59,18 @@ const Types = ({type, type2}) => {
             const ndtRes2 =  res2.no_damage_to
             ndtRes2.forEach(type2 => {return type2.name ? ndt2.push(type2.name) : null})
 
-            const goodAgainst2 = ddt2.concat(ndf2);
-            const weakAgainst2 = ddf2.concat(ndt2);
+            let goodAgainst2 = ddt2.concat(ndf2)
+            goodAgainst2 = goodAgainst2.filter((item,index)=>{
+                return (goodAgainst2.indexOf(item) === index)
+            });;
+            let weakAgainst2 = ddf2.concat(ndt2)
+            weakAgainst2 = weakAgainst2.filter((item,index)=>{
+                return (weakAgainst2.indexOf(item) === index)
+            });;;
             setGoodAgainst2(goodAgainst2);
             setWeakAgainst2(weakAgainst2)
-        }
+        }}
+        fetchData();
     }, [type, type2])
 
 
@@ -63,7 +78,7 @@ const Types = ({type, type2}) => {
         <div className="types">
             <div className="type-wrapper">
                 <div className="badge">
-                    <img className="type-image" src={firstImage}></img>
+                    <img className="type-image" alt='type' src={firstImage}></img>
                     <h3>{type}</h3>
                 </div>
                 <div className="type-connections">
@@ -73,7 +88,7 @@ const Types = ({type, type2}) => {
                         {goodAgainst.map((type, index) => {
                             return (
                                 <li key={index}>
-                                    <img className="mini-img" src={require(`../img/${type}.png`).default}></img>
+                                    <img className="mini-img" alt='type' src={require(`../img/${type}.png`).default}></img>
                                     {type}
                                 </li>
                             )
@@ -86,7 +101,7 @@ const Types = ({type, type2}) => {
                             {weakAgainst.map((type, index) => {
                             return (
                                 <li key={index}>
-                                    <img className="mini-img" src={require(`../img/${type}.png`).default}></img>
+                                    <img className="mini-img" alt='type' src={require(`../img/${type}.png`).default}></img>
                                     {type}
                                 </li>
                             )
@@ -98,7 +113,7 @@ const Types = ({type, type2}) => {
             {type2 ? 
                 <div className="type-wrapper">
                     <div className="badge">
-                        <img className="type-image" src={secondImage}></img>
+                        <img className="type-image" alt='type' src={secondImage}></img>
                         <h3>{type2}</h3>
                     </div>
                     <div className="type-connections">
@@ -108,7 +123,7 @@ const Types = ({type, type2}) => {
                             {goodAgainst2.map((type, index) => {
                                 return (
                                     <li key={index}>
-                                        <img className="mini-img" src={require(`../img/${type}.png`).default}></img>
+                                        <img className="mini-img" alt='type' src={require(`../img/${type}.png`).default}></img>
                                         {type}
                                     </li>
                                 )
@@ -121,7 +136,7 @@ const Types = ({type, type2}) => {
                                 {weakAgainst2.map((type, index) => {
                                 return (
                                     <li key={index}>
-                                        <img className="mini-img" src={require(`../img/${type}.png`).default}></img>
+                                        <img className="mini-img" alt='type' src={require(`../img/${type}.png`).default}></img>
                                         {type}
                                     </li>
                                 )

@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import useDidMountEffect from './customHooks'
 import SearchBar from './SearchBar';
 import pokemons from '../apis/pokemons';
 import PokeCard from './PokeCard';
 import Section from './Section';
 import Abilities from './Abilities';
-import Types from './Types'
+import Types from './Types';
+import Evolution from './Evolution'
 import { TYPE_COLORS} from './type_colors.js';
 import './styles/App.scss';
 import pokeball from '../img/pokeball.png';
@@ -20,6 +21,7 @@ const App = () => {
     const [ability, setAbility] = useState('');
     const [ability2, setAbility2] = useState('');
     const [ability3, setAbility3] = useState('');
+    const [evolutionUrl, setEvolutionUrl] = useState('');
 
     const onTermSubmit = async (term) => {
         try {
@@ -51,32 +53,35 @@ const App = () => {
 
             //pokemon's description endpoint
             const desRes = await pokemons.get(`/pokemon-species/${term}`)
-            
+
             let description = "";
             if(desRes) {
                 description = desRes.data.flavor_text_entries.find((text) => {
                 return text.language.name === "en"
                 }).flavor_text.replace(//g, " ");
-            } 
-           
+            }
             const catchRate = Math.floor(desRes.data.capture_rate/255*100);
-
+            
+            const evolutionChainUrl = desRes.data.evolution_chain.url;
 
             setActivePokemon({
+                pokeId: pokeId,
                 name: response.data.name,
                 image: imageURL,
                 description: description,
-                type: response.data.types.[0].type.name,
+                type: response.data.types[0].type.name,
                 type2: secondType,
                 experience: response.data.base_experience,
                 height: response.data.height,
                 weight: response.data.weight,
                 color: desRes.data.color.name,
                 captureRate: catchRate,
-                ability: response.data.abilities.[0].ability.name,
+                ability: response.data.abilities[0].ability.name,
                 ability2: secondAbility,
                 ability3: thirdAbility
             })
+            setEvolutionUrl(evolutionChainUrl);
+
             } catch (err) {
                 setError(err)
                 console.log(err)
@@ -120,8 +125,6 @@ const App = () => {
 //is not invoked on init   
 useDidMountEffect(getAbilityResponse, [activePokemon]);
 
-console.log(activePokemon.name)
-
     return (
         <div className="wrapper"
             style={ activePokemon.type2 === '' ?
@@ -153,6 +156,7 @@ console.log(activePokemon.name)
                 )
                 : <div>
                     <PokeCard
+                        key={activePokemon.pokeId}
                         name={activePokemon.name}
                         image={activePokemon.image}
                         description={activePokemon.description}
@@ -168,6 +172,11 @@ console.log(activePokemon.name)
                     <Section
                         title="Evolution"
                         animation="fade-up-right"
+                        content ={
+                            <Evolution
+                            evolutionUrl = {evolutionUrl}
+                            pokeId={activePokemon.pokeId}
+                        />}
                     />
                     <Section 
                         animation="fade-up-left"
