@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useDidMountEffect from './customHooks'
-import SearchBar from './SearchBar';
 import pokemons from '../apis/pokemons';
+import SearchBar from './SearchBar'
 import PokeCard from './PokeCard';
 import Section from './Section';
 import Abilities from './Abilities';
@@ -109,14 +109,16 @@ const App = () => {
                 const englishEntry2 = response2.data.effect_entries.find(entry => {
                 return entry.language.name === 'en'
             });
-            setAbility2(englishEntry2.effect);
+            const engEffect2 = englishEntry2 ? englishEntry2.effect : "";
+            setAbility2(engEffect2);
             }
             if (activePokemon.ability3 !== '') {
                 const response3 = await pokemons.get(`/ability/${activePokemon.ability3}`)
                 const englishEntry3 = response3.data.effect_entries.find(entry => {
                 return entry.language.name === 'en'
             });
-            setAbility3(englishEntry3.effect);
+            const engEffect3 = englishEntry3 ? englishEntry3.effect : "";
+            setAbility3(engEffect3);
             }            
         }
     }
@@ -139,6 +141,7 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                 <SearchBar 
                 onFormSubmit={onTermSubmit}
                 randomPokemon={randomPokemon}
+                loading={loading}
                 />
             
                 {loading ? (
@@ -175,7 +178,6 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                         content ={
                             <Evolution
                             evolutionUrl = {evolutionUrl}
-                            pokeId={activePokemon.pokeId}
                         />}
                     />
                     <Section 

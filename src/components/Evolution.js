@@ -1,9 +1,13 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
+import pokemons from '../apis/pokemons';
+import './styles/Evolution.scss';
 
 const Evolution = ({evolutionUrl}) => {
 
     const[evoChain, setEvoChain] = useState([]);
+    const[imgUrl, setImgUrl] = useState([]);
+    const[error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,7 +20,7 @@ const Evolution = ({evolutionUrl}) => {
                 let numberOfEvolutions = evoData['evolves_to'].length;
 
                 evoChain.push(evoData.species.name)
-            
+
                 if(numberOfEvolutions > 1) {
                     for(let i = 1; i < numberOfEvolutions; i++) {
                         evoChain.push(evoData.evolves_to[i].species.name)
@@ -25,23 +29,35 @@ const Evolution = ({evolutionUrl}) => {
                 evoData = evoData['evolves_to'][0];
             } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
 
-            return setEvoChain(evoChain);
+            evoChain.map(pokemon => {
+            const fetchImg = async() => {
+                try {
+                    const response = await pokemons.get(`/pokemon/${pokemon}`)
+                    const pokeId = response.data.id
+                    const newUrl = `https://pokeres.bastionbot.org/images/pokemon/${pokeId}.png`
+                    setImgUrl(currentArray =>[...currentArray, newUrl])
+                } catch (err) {
+                    setError(err)
+                    console.log(err)
+                } 
+            }
+            return fetchImg();
+        })
+            return setEvoChain(evoChain)
         }
     fetchData()
-    }, []);
-
-    console.log(evoChain)
-
-   //chain.species.url - pokemon species id in the url is the same as the pokemon id in the separate pokemon images API.
+    }, [evolutionUrl]);
 
     return (
-        <div>
+        <div className="evo-container">
             {evoChain.map((pokemon, index) => {
-                return (
-                    <div className="evolution" key={index}>
-                        <h4>{pokemon}</h4>
+                const name = pokemon.charAt(0).toUpperCase() + pokemon.slice(1);
+                return evoChain.length !== 1 ? (
+                    <div key={name} className="evo-item">
+                         <img className="evo-img" alt="evolution stage" src={imgUrl[index]}></img>
+                        <h4>{name}</h4>
                     </div>
-                )
+                ) : <h4 key={name}> This Pokémon does not have evolutionary line! </h4>
             })}
         </div>
     )

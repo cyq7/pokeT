@@ -1,0 +1,26 @@
+.evo-container {
+    display: grid;
+    justify-items: space-between;
+
+    .evo-item {
+        text-align: center;
+
+        img {
+            object-fit: contain;
+            height: 100%;
+            width: 100%;
+        }
+
+        h4 {
+            margin: 0;
+        }
+    }
+    @media screen and (max-width: 600px) {
+        flex-direction: column;
+
+        img {
+            height: 50%;
+            width: 50%;
+        }
+    }
+}

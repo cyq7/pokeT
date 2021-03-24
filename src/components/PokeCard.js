@@ -20,7 +20,7 @@ const PokeCard = ({name, image, experience, height, weight, type, type2, descrip
             <img 
                 style={loaded ? {} : {display:"none"}}
                 data-aos="zoom-in" 
-                alt="pokemon's image" 
+                alt="pokemon" 
                 src={ image }
                 onLoad={() => setLoaded(true)}>
             </img>
