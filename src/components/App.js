@@ -186,6 +186,7 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                             <Types
                             type={activePokemon.type}
                             type2={activePokemon.type2}
+                            pokemonName={onTermSubmit}
                         />}
                     />
                     <Section

@@ -3,7 +3,7 @@ import axios from 'axios';
 import pokemons from '../apis/pokemons';
 import './styles/Evolution.scss';
 
-const Evolution = ({evolutionUrl}) => {
+const Evolution = ({evolutionUrl, pokemonName}) => {
 
     const[evoChain, setEvoChain] = useState([]);
     const[pokeId, setPokeId] = useState([]);
@@ -33,7 +33,6 @@ const Evolution = ({evolutionUrl}) => {
                         pokeIdArr.push(pokeId);
                     }
                 }
-                console.log(pokeIdArr);
                 evoData = evoData['evolves_to'][0];
             } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
             
@@ -43,20 +42,18 @@ const Evolution = ({evolutionUrl}) => {
         fetchData()
     }, [evolutionUrl]);
 
-        console.log(pokeId);
-
 
     return (
-        <div className="evo-container">
+        <div className="evo-container" style={evoChain.length !== 1 ? {display: "grid"} : {display: "flex"}}>
             {evoChain.map((pokemon, index) => {
                 const name = pokemon.charAt(0).toUpperCase() + pokemon.slice(1);
                 let imageURL = `https://pokeres.bastionbot.org/images/pokemon/${pokeId[index]}.png`
                 return evoChain.length !== 1 ? (
-                    <div key={name} className="evo-item">
-                        <img key={imageURL} src={imageURL}></img>
-                        <h4>{name}</h4>
-                    </div>
-                ) : <h4 key={name}> This Pokémon does not have evolutionary line! </h4>
+                        <div key={name} className="evo-item">
+                            <img key={imageURL} alt="evolution stage" src={imageURL}></img>
+                            <h4>{name}</h4>
+                        </div>
+                ) : <h4 className="evo-message" key={name}> This Pokémon does not have evolutionary line! </h4>
             })}
         </div>
     )
