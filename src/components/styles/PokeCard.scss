@@ -17,6 +17,12 @@
         height: 60%;
         width: 60%;
         margin-top: -35%;
+
+        @media (max-width: 660px) {
+            height: 80%;
+            width: 80%;
+            margin-top: -35%;
+        }
     }
 
     h1 {
