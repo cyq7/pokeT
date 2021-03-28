@@ -3,7 +3,7 @@ import axios from 'axios';
 import pokemons from '../apis/pokemons';
 import './styles/Evolution.scss';
 
-const Evolution = ({evolutionUrl, pokemonName}) => {
+const Evolution = (props) => {
 
     const[evoChain, setEvoChain] = useState([]);
     const[pokeId, setPokeId] = useState([]);
@@ -11,7 +11,7 @@ const Evolution = ({evolutionUrl, pokemonName}) => {
     useEffect(() => {
         const fetchData = async () => {
             setEvoChain([]);
-            const response = await axios.get(evolutionUrl)
+            const response = await axios.get(props.evolutionUrl)
 
             let evoChain = [];
             let evoData = response.data.chain;
@@ -40,7 +40,7 @@ const Evolution = ({evolutionUrl, pokemonName}) => {
             return setEvoChain(evoChain)
         }
         fetchData()
-    }, [evolutionUrl]);
+    }, [props.evolutionUrl]);
 
 
     return (
@@ -49,7 +49,7 @@ const Evolution = ({evolutionUrl, pokemonName}) => {
                 const name = pokemon.charAt(0).toUpperCase() + pokemon.slice(1);
                 let imageURL = `https://pokeres.bastionbot.org/images/pokemon/${pokeId[index]}.png`
                 return evoChain.length !== 1 ? (
-                        <div key={name} className="evo-item">
+                        <div key={name} value={name} className="evo-item" onClick={() => props.onSelectedPokemon(name)}>
                             <img key={imageURL} alt="evolution stage" src={imageURL}></img>
                             <h4>{name}</h4>
                         </div>

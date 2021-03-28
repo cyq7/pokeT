@@ -5,7 +5,7 @@ import pokeball from '../img/pokeball.png'
 
 const SearchBar = (props) => {
     const [term, setTerm] = useState('');
-    const [disabledButton, setDisabledButton] = useState(false)
+    const [disabledButton, setDisabledButton] = useState(false);
 
     const handleChange = (event) => {
         setTerm(event.target.value);
@@ -37,7 +37,6 @@ const SearchBar = (props) => {
             <button onClick={handleClick} className="random"  disabled={disabledButton}> 
                 <img src={pokeball} alt="pokeball-icon" /> <span>Random</span> 
             </button>
-            
         </div>
     )
 }

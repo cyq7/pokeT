@@ -95,6 +95,10 @@ const App = () => {
         onTermSubmit(response.data.name)
     }
 
+    const searchPokemon = (pokemon) => {
+        onTermSubmit(pokemon.toLowerCase());
+    } 
+
     //abilities endpoint
     const getAbilityResponse = async () => {
         if (activePokemon !== "") {
@@ -154,6 +158,7 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                 ) : error ? (
                      <div className='loading'>
                         <img className="empty-pokeball" src={emptyPokeball} alt="empty pokeball"></img>
+                        <h3>Something went wrong :(</h3>
                         <h3>This Pokemon does not exist</h3>
                     </div>
                 )
@@ -178,6 +183,7 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                         content ={
                             <Evolution
                             evolutionUrl = {evolutionUrl}
+                            onSelectedPokemon={searchPokemon}
                         />}
                     />
                     <Section 
@@ -186,7 +192,6 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                             <Types
                             type={activePokemon.type}
                             type2={activePokemon.type2}
-                            pokemonName={onTermSubmit}
                         />}
                     />
                     <Section
@@ -201,10 +206,6 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
                             description2={ability2}
                             description3={ability3} 
                             />}
-                    />
-                     <Section
-                        title="Movies"
-                        animation="fade-up-left"
                     />
                 </div>
                 }
