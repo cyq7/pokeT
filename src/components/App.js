@@ -52,17 +52,22 @@ const App = () => {
             let imageURL = `https://pokeres.bastionbot.org/images/pokemon/${pokeId}.png`
 
             //pokemon's description endpoint
-            const desRes = await pokemons.get(`/pokemon-species/${term}`)
-
+            const descriptionTerm = term.includes('-') ? '' : term;
+            const desRes = (descriptionTerm === '') ? "" : await pokemons.get(`/pokemon-species/${descriptionTerm}`)
             let description = "";
-            if(desRes) {
+
+            if(desRes !== "") {
                 description = desRes.data.flavor_text_entries.find((text) => {
                 return text.language.name === "en"
                 }).flavor_text.replace(//g, " ");
+            } else {
+                description = null;
             }
-            const catchRate = Math.floor(desRes.data.capture_rate/255*100);
+            const catchRate = desRes !== "" ? `${Math.floor(desRes.data.capture_rate/255*100)}%`: "unknown"
             
-            const evolutionChainUrl = desRes.data.evolution_chain.url;
+            const pokeColor = desRes !== "" ? desRes.data.color.name : "unknown"
+            
+            const evolutionChainUrl = desRes !== "" ? desRes.data.evolution_chain.url : "";
 
             setActivePokemon({
                 pokeId: pokeId,
@@ -74,7 +79,7 @@ const App = () => {
                 experience: response.data.base_experience,
                 height: response.data.height,
                 weight: response.data.weight,
-                color: desRes.data.color.name,
+                color: pokeColor,
                 captureRate: catchRate,
                 ability: response.data.abilities[0].ability.name,
                 ability2: secondAbility,
@@ -139,7 +144,10 @@ useDidMountEffect(getAbilityResponse, [activePokemon]);
             }>
             <div 
                 className="decoration"
-                style={{backgroundColor: `#${TYPE_COLORS[activePokemon.type]}`}}>
+                style={ activePokemon.type2 === '' ?
+                {backgroundColor: `#${TYPE_COLORS[activePokemon.type]}`} : 
+                {backgroundImage: `linear-gradient(to right, #${TYPE_COLORS[activePokemon.type]}, #${TYPE_COLORS[activePokemon.type2]})`}
+            }>
             </div>
             <div className="container">
                 <SearchBar 

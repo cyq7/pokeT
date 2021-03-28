@@ -8,10 +8,12 @@ const Evolution = (props) => {
     const[evoChain, setEvoChain] = useState([]);
     const[pokeId, setPokeId] = useState([]);
 
+    
     useEffect(() => {
-        const fetchData = async () => {
+        if(props.evolutionUrl !== "") {
+            const fetchData = async () => {
             setEvoChain([]);
-            const response = await axios.get(props.evolutionUrl)
+            const response = await axios.get(props.evolutionUrl) 
 
             let evoChain = [];
             let evoData = response.data.chain;
@@ -40,10 +42,12 @@ const Evolution = (props) => {
             return setEvoChain(evoChain)
         }
         fetchData()
+        }
     }, [props.evolutionUrl]);
 
 
-    return (
+    if(evoChain.length) {
+        return (
         <div className="evo-container" style={evoChain.length !== 1 ? {display: "grid"} : {display: "flex"}}>
             {evoChain.map((pokemon, index) => {
                 const name = pokemon.charAt(0).toUpperCase() + pokemon.slice(1);
@@ -56,7 +60,10 @@ const Evolution = (props) => {
                 ) : <h4 className="evo-message" key={name}> This Pokémon does not have evolutionary line! </h4>
             })}
         </div>
-    )
+        )
+    } else {
+        return  <h4 className="evo-message"> This Pokémon does not have evolutionary line! </h4>
+    }
 }
 
 export default Evolution;
