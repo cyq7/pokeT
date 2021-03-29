@@ -135,6 +135,7 @@ const App = () => {
 
 //is not invoked on init   
 useDidMountEffect(getAbilityResponse, [activePokemon]);
+window.scrollTo(0, 0);
 
     return (
         <div className="wrapper"
