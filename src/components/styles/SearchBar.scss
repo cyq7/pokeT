@@ -39,7 +39,7 @@
         font-weight: bold;
         display: flex;
       
-        &:hover{
+        &:hover:not(:active) {
             background: #333;
             color: #FFFF66;
         }

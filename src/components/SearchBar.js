@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import './styles/SearchBar.scss'
 import { BsSearch  } from 'react-icons/bs'
 import pokeball from '../img/pokeball.png'
@@ -14,6 +14,8 @@ const SearchBar = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         props.onFormSubmit(term.toLowerCase())
+        document.getElementById('input').blur();
+        setTerm("");
     }
 
     const handleClick = () => {
@@ -27,6 +29,8 @@ const SearchBar = (props) => {
         <div className='search-bar'>
             <form onSubmit={handleSubmit}>
                 <input 
+                id="input"
+                autocomplete="off"
                 type="text" 
                 onChange={handleChange} 
                 value={term}

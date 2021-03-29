@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useDidMountEffect from './customHooks'
 import pokemons from '../apis/pokemons';
 import SearchBar from './SearchBar'
@@ -46,7 +46,6 @@ const App = () => {
             if(response.data.abilities.length > 2) {
                 thirdAbility = response.data.abilities[2].ability.name
             }
-            
             //pokemon's splashart description
             const pokeId = response.data.id
             let imageURL = `https://pokeres.bastionbot.org/images/pokemon/${pokeId}.png`
@@ -64,9 +63,9 @@ const App = () => {
                 description = null;
             }
             const catchRate = desRes !== "" ? `${Math.floor(desRes.data.capture_rate/255*100)}%`: "unknown"
-            
+
             const pokeColor = desRes !== "" ? desRes.data.color.name : "unknown"
-            
+
             const evolutionChainUrl = desRes !== "" ? desRes.data.evolution_chain.url : "";
 
             setActivePokemon({
@@ -132,9 +131,9 @@ const App = () => {
         }
     }
 
-
 //is not invoked on init   
 useDidMountEffect(getAbilityResponse, [activePokemon]);
+
 window.scrollTo(0, 0);
 
     return (
@@ -218,7 +217,6 @@ window.scrollTo(0, 0);
                     />
                 </div>
                 }
-
             </div>
         </div>
     );

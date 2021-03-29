@@ -7,7 +7,7 @@ import './styles/Section.scss'
 const Section = ({title, animation, content}) => {
 
     useEffect(() => {
-        Aos.init({duration: 2000});
+        Aos.init({duration: 2600});
     }, []);
 
     return (
