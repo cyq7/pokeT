@@ -26,6 +26,8 @@ Application is fully responsive
 ![image](https://user-images.githubusercontent.com/65857670/115049072-997b8400-9eda-11eb-84e8-f60d31335f2f.png)
 
 
+## Technologies:
+At the end of the day, the technologies implemented in this project are: *React*, *JSX*, *VanillaJS*, *Axios* and external API, *HTML* and *SCSS*. I chose to use the `create-react-app` boilerplate to minimize initial setup.
 
 ## Installation and Setup Instructions
 
